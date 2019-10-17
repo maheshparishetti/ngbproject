@@ -12,6 +12,8 @@ import { ddlCategory } from '../ddlcategory';
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
+  show=false;
+  autohide=true;
   isCollapsed:boolean=false;
   arr: Articles[] = [];
   arr1: Articles[] = [];
@@ -153,9 +155,10 @@ export class MainComponent implements OnInit {
       (data: any) => {
         this.check = data;
         console.log(this.check);
-        alert("articles added");
-        this.getData();
+        this.show=true;
         this.form.reset();
+        this.getData();
+        this.modalService.dismissAll();
 
       }
     )
@@ -169,12 +172,12 @@ export class MainComponent implements OnInit {
       (data: any) => {
         this.check = data;
         console.log(this.check);
-        alert("articles updated");
+        // alert("articles updated");
+        this.modalService.dismissAll();
         this.getData();
         this.form.reset();
-
       }
-    )
+    );
   }
 
 }

@@ -1,0 +1,225 @@
+ <!-- <form >  -->
+    <app-input name={{name}}></app-input>
+
+
+    <form>
+    <input name='validate' #validate='ngModel' ngModel type="text" pattern="^[0-9 ]{2,30}$" required minlength="5"/>
+    0 or 12 Digit : {{ validate.valid }} <br/>
+    <!-- <input name='validate2' #validate2='ngModel' ngModel type="text" pattern="[0-9]{12}" required/>
+    Exact 12 digit : {{ validate2.valid }}
+    </form> -->
+
+    <p>
+        <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed"
+                [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+          Toggle
+        </button>
+      </p>
+      <div id="collapseExample" [ngbCollapse]="isCollapsed">
+          <div class="card">
+            <div class="card-body">
+   <div class="container">
+  <div class="form-group form-inline">
+      Full text search: <input class="form-control ml-2" type="text" [(ngModel)]="query" />
+  </div>
+ <!-- </form> -->
+
+ <!-- <input type="text" [(ngModel)]="query">
+ <p>{{query}}</p> -->
+ <button style="margin-top: 10px;margin-left: 10px" class="btn btn-primary float-left mb-5"ngbPopover="Want to Add Articles?please click" triggers="mouseenter:mouseleave" (click)="open(Addpopup)">Add Articles</button>&nbsp;&nbsp;
+
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th scope="col">Index</th>
+    <th scope="col">Article Id</th>
+    <th scope="col">Article Name</th>
+    <th scope="col">Created By Name</th>
+    <th scope="col">Category Name</th>
+    <th scope="col">Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of arr1 | search:query; index as i">
+    <th scope="row">{{ i + 1 }}</th>
+    <td> {{item.articleId  }}</td>
+    <td>{{ item.articleName }}</td>
+     <td>{{ item.createdByName }}</td>
+     <td>{{ item.categoryName }}</td>
+     <td><button type="button" class="btn btn-info" ngbPopover="Want to edit? please click" triggers="mouseenter:mouseleave" (click)="openEdit(editpopup,item)">Edit</button>&nbsp;
+    <button type="buuton" class="btn btn-primary"  ngbPopover="Want to read?plaese click" triggers="mouseenter:mouseleave"(click)="openReadmore(readmore,item)"> ReadMore</button></td>
+  </tr>
+  </tbody>
+</table>
+
+
+<ngb-pagination [collectionSize]="totalItem" [(page)]="Page"  ngbPopover="{{[(Page)]}}" triggers="mouseenter:mouseleave" (pageChange)="showPage([Page])"[maxSize]="5" [rotate]="true" [ellipses]="false" [boundaryLinks]="true"></ngb-pagination>
+</div>
+</div>
+          </div></div>
+
+<!------------------------------------------------------------ add ------------------------------------------------------>
+<ng-template #Addpopup let-modal>
+  <br>
+
+  <form [formGroup]="form" class="container" (ngSubmit)="OnAddArticleSave()">
+    <h4>Add Article</h4>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-6">
+          <label><b>Article Name</b></label>
+          <input formControlName="articleName" type="text" class="form-control">
+          <label class="alert alert-danger" *ngIf="form.get('articleName').hasError('required') && !form.get('articleName').pristine" >articleName is required.</label>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-6">
+          <label><b>CreatedBy</b></label>
+          <input formControlName="createdBy" minlength="5" pattern="[0-9 ]*" type="text" class="form-control">
+           <label class="alert alert-danger" *ngIf="form.get('createdBy').hasError('minlength')" >min 5.</label>
+           <label class="alert alert-danger" *ngIf="form.get('createdBy').hasError('pattern')"  >only num.</label>
+
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-6">
+          <label><b>Category name</b></label>
+          <select formControlName="categoryId" class="form-control">
+            <option>Choose your category</option>
+            <option *ngFor="let item of category" [value]="item.categoryId">{{item.categoryName}}
+            </option>
+          </select>
+          <!-- <ul>
+            <li *ngFor="let v of [1,2,3,4,5,6] | slice:2:-1">
+              {{v}}
+            </li>
+          </ul> -->
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-6">
+          <button class="btn btn-primary" [disabled]="!form.valid" type="submit">Submit</button>&nbsp;
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+
+        </div>
+      </div>
+    </div><br>
+    <br>
+  </form>
+</ng-template>
+<!-- ------------------------------------------------Editpop up---------------------- -->
+<ng-template #editpopup let-modal>
+  <br>
+
+  <form [formGroup]="form" class="container" (ngSubmit)="OnEditArticleSave(form.value)">
+    <h4>Add Article</h4>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-6">
+          <label><b>Article Name</b></label>
+          <input formControlName="articleName" type="text" class="form-control">
+          <label class="alert alert-danger" *ngIf="form.get('articleName').hasError('required') && !form.get('articleName').pristine" >articleName is required.</label>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-6">
+          <label><b>CreatedBy</b></label>
+          <input formControlName="createdBy" type="text" class="form-control">
+          <label class="alert alert-danger" *ngIf="form.get('createdBy').hasError('required') && !form.get('createdBy').pristine" >Createdby is required.</label>
+
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-6">
+          <label><b>Category name</b></label>
+          <select formControlName="categoryId" class="form-control">
+            <option>Choose your category</option>
+            <option *ngFor="let item of category" [value]="item.categoryId">{{item.categoryName}}
+            </option>
+          </select>
+          <!-- <ul>
+            <li *ngFor="let v of [1,2,3,4,5,6] | slice:2:-1">
+              {{v}}
+            </li>
+          </ul> -->
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-6 col-sm-4 col-md-6">
+          <button class="btn btn-primary" [disabled]="!form.valid" type="submit">Submit</button>&nbsp;
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Close</button>
+
+        </div>
+      </div>
+    </div><br>
+    <br>
+  </form>
+</ng-template>
+<ng-template #readmore let-model>
+
+  <!-- <div class="card text-center">
+    <div class="card-header">
+      {{read?.articleName}}
+    </div>
+    <div class="card-header">
+        {{read?.content}}
+      </div>
+      <div class="card-header">
+          {{read?.createdBy}}
+        </div>
+        <div class="card-header">
+            {{read?.categoryName}}
+          </div>
+    <div class="card-body">
+      <h5 class="card-title" [innerHTML]='read?.content'></h5>
+      <p class="card-text"></p>
+      <a class="btn btn-primary"(click)="readMoreClose()">Close</a>
+    </div>
+  </div> -->
+  <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Read more</h4>
+      <button type="button" class="close" aria-label="Close" (click)="model.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label for="dateOfBirth">{{read?.articleName}}</label>
+          <div class="input-group">
+            <div class="input-group-append">
+              <p>{{read?.createdDate}}</p>
+            </div>
+            <div class="input-group-append">
+                <p>{{read?.createdByName}}</p>
+            </div>
+            <div class="input-group-append">
+                <p [innerHTML]="read?.content"></p>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="model.close('Save click')">Close</button>
+    </div>
+</ng-template>
+

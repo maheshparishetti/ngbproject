@@ -32,6 +32,10 @@ export class MainComponent implements OnInit {
   read:any;
   category: ddlCategory;
   name = 'Angular 5';
+  show1=false;
+  autohide1=true;
+  show2=false;
+  autohide2=false;
   constructor(private fb: FormBuilder, private _data: ArticleService, private modalService: NgbModal) {
 
   }
@@ -110,7 +114,11 @@ export class MainComponent implements OnInit {
         this.arr = data;
         console.log(this.arr);
         this.arr1 = this.arr['kbArticles'];
-      });
+        this.show1=true;
+      },
+      function(error){
+        this.show2=true;
+      } );
   }
   getPageInfo() {
     this._data.gatAllData().subscribe(

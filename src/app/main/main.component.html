@@ -16,23 +16,34 @@
   </button>
 </div>
 <div id="collapseExample" [ngbCollapse]="isCollapsed">
-  <div class="card" background>
-    <div class="card-body">
+  <div>
+    <div >
       <div class="container-fluid"><br>
         <div class="form-group form-inline">
           Full text search: <input class="form-control ml-2" type="text" [(ngModel)]="query" />
         </div>
         <!-- </form> -->
-
         <!-- <input type="text" [(ngModel)]="query">
  <p>{{query}}</p> -->
-        <ngb-toast *ngIf="show"class="bg-success text-light" [delay]="5000" [autohide]="autohide" (hide)="show = false; autohide = true"
+        <ngb-toast *ngIf="show" class="bg-success text-light" [delay]="3000" [autohide]="autohide" (hide)="show = false; autohide = true"
           [class.bg-warning]="!autohide">
-
           <div  *ngIf="autohide">
             Record Added
           </div>
         </ngb-toast>
+        <ngb-toast *ngIf="show1" class="bg-danger text-light" [delay]="2000" [autohide]="autohide1" (hide)="show1 = false; autohide1 = true"
+        [class.bg-warning]="!autohide1">
+        <div  *ngIf="autohide1">
+          Record Loaded
+        </div>
+      </ngb-toast>
+
+    <ngb-toast *ngIf="show2" class="bg-danger text-light" [delay]="5000" [autohide]="autohide2" (hide)="show2 = false; autohide2 = true"
+    [class.bg-warning]="!autohide2">
+    <div  *ngIf="autohide2">
+      Record Loaded2
+    </div>
+  </ngb-toast>
 
         <button style="margin-top: 10px;margin-left: 10px" class="btn btn-primary float-left mb-5"
           ngbPopover="Want to Add Articles?please click" triggers="mouseenter:mouseleave" (click)="open(Addpopup)">Add
@@ -198,25 +209,7 @@
 </ng-template>
 <ng-template #readmore let-model>
 
-  <!-- <div class="card text-center">
-    <div class="card-header">
-      {{read?.articleName}}
-    </div>
-    <div class="card-header">
-        {{read?.content}}
-      </div>
-      <div class="card-header">
-          {{read?.createdBy}}
-        </div>
-        <div class="card-header">
-            {{read?.categoryName}}
-          </div>
-    <div class="card-body">
-      <h5 class="card-title" [innerHTML]='read?.content'></h5>
-      <p class="card-text"></p>
-      <a class="btn btn-primary"(click)="readMoreClose()">Close</a>
-    </div>
-  </div> -->
+
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Read more</h4>
     <button type="button" class="close" aria-label="Close" (click)="model.dismiss('Cross click')">

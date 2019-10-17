@@ -6,8 +6,15 @@
   margin-left: auto;
   background-color: silver;
 }
-.btn1 {
+/* .btn1 {
   margin-left: 726px;
   margin-top: 10px;
   margin-bottom: 10px;
+} */
+.btn-outline-primary {
+  color: #007bff;
+  border-color: #007bff;
+  color: lightyellow;
+  background-color: orange;
+  float: right;
 }

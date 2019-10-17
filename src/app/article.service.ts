@@ -5,7 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class ArticleService {
-  url1 = "https://dc2c12b1.ngrok.io/api/KB/";
+  url1 = "https://24e90ad7.ngrok.io/api/KB/";
 
 
   url = this.url1+"GetArticles?getall=0&categ=";
